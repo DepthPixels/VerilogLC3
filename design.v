@@ -503,7 +503,7 @@ module pc_mar_muxes (
       2'b11: ADDER_ADDR2 = {{5{IR[10]}}, IR[10:0]};
     endcase
     case (PCMUX)
-      2'b00: PC_IN = PC + 1;
+      2'b00: PC_IN = PC + 1'd1;
       2'b01: PC_IN = bus;
       2'b10: PC_IN = ADDER_OUT;
     endcase
@@ -559,7 +559,7 @@ module regfile(
     
     always @(*) begin
         loads = 8'b0;
-        if (LD) loads[DR] = 1;
+        if (LD) loads[DR] = 1'b1;
         SR1OUT = outs[SR1];
         SR2OUT = outs[SR2];
     end
