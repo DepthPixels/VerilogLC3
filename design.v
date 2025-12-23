@@ -50,7 +50,7 @@ module datapath(
 
   alu alu1 (ALUA, ALUB, ALUK, ALUout);
   pc_mar_muxes pc_mar_muxes1 (clk, rstn, MARMUX, ADDR2MUX, ADDR1MUX, PCMUX, LD_PC, IR, SR1OUT, bus, MARMUXout, PCout);
-  control_unit control_unit1 (clk, R, BEN, IR, LD_BEN, LD_MAR, LD_MDR, LD_IR, LD_PC, LD_REG, LD_CC, GateMARMUX, GateMDR,
+  control_unit control_unit1 (clk, rstn, R, BEN, IR, LD_BEN, LD_MAR, LD_MDR, LD_IR, LD_PC, LD_REG, LD_CC, GateMARMUX, GateMDR,
   GateALU, GatePC, MARMUX, PCMUX, ADDR1MUX, ADDR2MUX, DRMUX, SR1MUX, ALUK, MIO_EN, R_W);
   BEN_CC BEN_CC1 (clk, rstn, bus, IR, LD_BEN, LD_CC, BEN);
   datapath_memory datapath_memory1 (clk, rstn, bus, LD_MAR, LD_MDR, MIO_EN, R_W, R, MARout, MDRout);
@@ -94,6 +94,7 @@ endmodule
 
 module control_unit (
   input clk,
+  input rstn,
   input R,
   input BEN,
   input reg [15:0] IR,
@@ -121,7 +122,7 @@ module control_unit (
 );
 
   typedef enum {ADD, AND, NOT, TRAP, TRAP_MEM, TRAP_SET_PC, LEA, LD, LD_MEM, LD_SET_DR, LDR, LDI, LDI_MEM, LDI_SET_MAR, ST, ST_SET_MDR, ST_MEM, STR, STI, STI_MEM, STI_SET_MAR,
-  JSR_CHECK, JSR, JSRR, JMP, BR_CHECK, BR, FETCH, FETCH_MEM, FETCH_SET_IR, DECODE} microsequencer_state;
+  JSR_CHECK, JSR, JSRR, JMP, BR_CHECK, BR, FETCH, FETCH_MEM, FETCH_SET_IR, DECODE, RESET, HALT} microsequencer_state;
 
   microsequencer_state state;
   microsequencer_state state_next;
@@ -150,6 +151,9 @@ module control_unit (
     R_W = 1'bx;
 
     case (state)
+      RESET: begin
+        state_next = FETCH;
+      end
       FETCH: begin
         state_next = FETCH_MEM;
         LD_MAR = 1'b1;
@@ -215,10 +219,13 @@ module control_unit (
         ALUK = 2'b10;
       end
       TRAP: begin
-        state_next = TRAP_MEM;
+        state_next = microsequencer_state'((IR[7:0] == 8'h25) ? HALT : TRAP_MEM);
         LD_MAR = 1'b1;
         GateMARMUX = 1'b1;
         MARMUX = 1'b0;
+      end
+      HALT: begin
+        $finish;
       end
       TRAP_MEM: begin
         state_next = microsequencer_state'((R) ? TRAP_SET_PC : TRAP_MEM);
@@ -391,7 +398,8 @@ module control_unit (
   end
 
   always @(posedge clk) begin
-    state <= state_next;
+    if (!rstn) state <= RESET;
+    else state <= state_next;
   end
 endmodule
 
@@ -409,30 +417,31 @@ module datapath_memory (
   output reg [15:0] MAR,
   output reg [15:0] MDR
 );
-
-  reg [15:0] MEM [65535:0];
-
   reg [15:0] MEMout;
 
+  reg [15:0] MEM [0:65535];
+
+  initial begin
+      for (int i = 0; i < 65536; i++) MEM[i] = 16'b0;
+      $readmemb("lc3mem.bin", MEM, 0, 25);
+  end
+
   always @(*) begin
-    R = 1;
-    if (rstn) begin
+    R = 1'b1;
+    if (!rstn) begin
       MAR = 16'b0;
       MDR = 16'b0;
-      $readmemh("lc3mem.hex", MEM);
     end
     else begin
       if (LD_MAR) MAR = bus;
-      if (LD_MDR) MDR = (MIO_EN) ? MEMout : bus;
       if (MIO_EN) begin
-        R = 0;
         // Write
         if (R_W) MEM[MAR] = MDR;
         // Read
         else MEMout = MEM[MAR];
       end
+      if (LD_MDR) MDR = (MIO_EN) ? MEMout : bus;
     end
-    R = 1;
   end
 endmodule
 

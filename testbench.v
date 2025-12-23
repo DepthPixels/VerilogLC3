@@ -5,7 +5,7 @@ module tb ();
 
   	datapath datapath1 (clk, rstn, bus);
 
-    always #5 clk = ~clk;
+    always #10 clk = ~clk;
 
     initial begin
       $dumpfile("dump.vcd");
@@ -17,8 +17,7 @@ module tb ();
         clk = 0;
         rstn = 0;
       
-        #10 rstn = 1;
-        #100 $finish;
+        #20 rstn = 1;
     end
 
 endmodule
