@@ -53,7 +53,7 @@ module datapath(
   control_unit control_unit1 (clk, R, BEN, IR, LD_BEN, LD_MAR, LD_MDR, LD_IR, LD_PC, LD_REG, LD_CC, GateMARMUX, GateMDR,
   GateALU, GatePC, MARMUX, PCMUX, ADDR1MUX, ADDR2MUX, DRMUX, SR1MUX, ALUK, MIO_EN, R_W);
   BEN_CC BEN_CC1 (clk, rstn, bus, IR, LD_BEN, LD_CC, BEN);
-  datapath_memory datapath_memory1 (clk, rstn, bus, IR, LD_MAR, LD_MDR, MIO_EN, R_W, R, MARout, MDRout);
+  datapath_memory datapath_memory1 (clk, rstn, bus, LD_MAR, LD_MDR, MIO_EN, R_W, R, MARout, MDRout);
 
   always @(*) begin
     case (DRMUX)
@@ -76,6 +76,16 @@ module datapath(
     endcase
   end
 
+  always @(posedge clk) begin
+    if (!rstn) begin
+      IR <= 16'b0;
+    end
+    else begin
+      if (LD_IR) IR <= bus;
+      else IR <= IR;
+    end
+  end
+
   assign DRIN = bus;
   assign SR2 = IR[2:0];
   assign ALUA = SR1OUT;
@@ -86,7 +96,7 @@ module control_unit (
   input clk,
   input R,
   input BEN,
-  inout reg [15:0] IR,
+  input reg [15:0] IR,
 
   output reg LD_BEN,
   output reg LD_MAR,
@@ -389,7 +399,6 @@ module datapath_memory (
   input clk,
   input rstn,
   input [15:0] bus,
-  input [15:0] IR,
 
   input LD_MAR,
   input LD_MDR,
@@ -410,6 +419,7 @@ module datapath_memory (
     if (rstn) begin
       MAR = 16'b0;
       MDR = 16'b0;
+      $readmemh("lc3mem.hex", MEM);
     end
     else begin
       if (LD_MAR) MAR = bus;

@@ -1,0 +1,604 @@
+$date
+	Tue Dec 23 10:00:59 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb $end
+$var wire 16 ! bus [15:0] $end
+$var reg 1 " clk $end
+$var reg 1 # rstn $end
+$scope module datapath1 $end
+$var wire 16 $ ALUA [15:0] $end
+$var wire 16 % DRIN [15:0] $end
+$var wire 1 " clk $end
+$var wire 1 # rstn $end
+$var wire 16 & SR2OUT [15:0] $end
+$var wire 3 ' SR2 [2:0] $end
+$var wire 16 ( SR1OUT [15:0] $end
+$var wire 2 ) SR1MUX [1:0] $end
+$var wire 1 * R_W $end
+$var wire 1 + R $end
+$var wire 16 , PCout [15:0] $end
+$var wire 2 - PCMUX [1:0] $end
+$var wire 1 . MIO_EN $end
+$var wire 16 / MDRout [15:0] $end
+$var wire 16 0 MARout [15:0] $end
+$var wire 16 1 MARMUXout [15:0] $end
+$var wire 1 2 MARMUX $end
+$var wire 1 3 LD_REG $end
+$var wire 1 4 LD_PC $end
+$var wire 1 5 LD_MDR $end
+$var wire 1 6 LD_MAR $end
+$var wire 1 7 LD_IR $end
+$var wire 1 8 LD_CC $end
+$var wire 1 9 LD_BEN $end
+$var wire 1 : GatePC $end
+$var wire 1 ; GateMDR $end
+$var wire 1 < GateMARMUX $end
+$var wire 1 = GateALU $end
+$var wire 2 > DRMUX [1:0] $end
+$var wire 1 ? BEN $end
+$var wire 16 @ ALUout [15:0] $end
+$var wire 2 A ALUK [1:0] $end
+$var wire 16 B ALUB [15:0] $end
+$var wire 2 C ADDR2MUX [1:0] $end
+$var wire 1 D ADDR1MUX $end
+$var reg 3 E DR [2:0] $end
+$var reg 16 F IR [15:0] $end
+$var reg 3 G SR1 [2:0] $end
+$var reg 16 H bus [15:0] $end
+$scope module BEN_CC1 $end
+$var wire 1 I BEN_calc $end
+$var wire 1 J CC_P $end
+$var wire 16 K IR [15:0] $end
+$var wire 16 L bus [15:0] $end
+$var wire 1 " clk $end
+$var wire 1 # rstn $end
+$var wire 1 8 LD_CC $end
+$var wire 1 9 LD_BEN $end
+$var wire 3 M CC_calc [2:0] $end
+$var wire 1 N CC_Z $end
+$var wire 1 O CC_N $end
+$var reg 1 ? BEN $end
+$var reg 3 P CC [2:0] $end
+$upscope $end
+$scope module alu1 $end
+$var wire 16 Q A [15:0] $end
+$var wire 16 R B [15:0] $end
+$var wire 2 S ALUK [1:0] $end
+$var reg 16 T out [15:0] $end
+$upscope $end
+$scope module control_unit1 $end
+$var wire 1 ? BEN $end
+$var wire 16 U IR [15:0] $end
+$var wire 1 " clk $end
+$var wire 1 + R $end
+$var reg 1 D ADDR1MUX $end
+$var reg 2 V ADDR2MUX [1:0] $end
+$var reg 2 W ALUK [1:0] $end
+$var reg 2 X DRMUX [1:0] $end
+$var reg 1 = GateALU $end
+$var reg 1 < GateMARMUX $end
+$var reg 1 ; GateMDR $end
+$var reg 1 : GatePC $end
+$var reg 1 9 LD_BEN $end
+$var reg 1 8 LD_CC $end
+$var reg 1 7 LD_IR $end
+$var reg 1 6 LD_MAR $end
+$var reg 1 5 LD_MDR $end
+$var reg 1 4 LD_PC $end
+$var reg 1 3 LD_REG $end
+$var reg 1 2 MARMUX $end
+$var reg 1 . MIO_EN $end
+$var reg 2 Y PCMUX [1:0] $end
+$var reg 1 * R_W $end
+$var reg 2 Z SR1MUX [1:0] $end
+$var integer 32 [ state [31:0] $end
+$var integer 32 \ state_next [31:0] $end
+$upscope $end
+$scope module datapath_memory1 $end
+$var wire 1 6 LD_MAR $end
+$var wire 1 5 LD_MDR $end
+$var wire 1 . MIO_EN $end
+$var wire 1 * R_W $end
+$var wire 16 ] bus [15:0] $end
+$var wire 1 " clk $end
+$var wire 1 # rstn $end
+$var reg 16 ^ MAR [15:0] $end
+$var reg 16 _ MDR [15:0] $end
+$var reg 16 ` MEMout [15:0] $end
+$var reg 1 + R $end
+$upscope $end
+$scope module pc_mar_muxes1 $end
+$var wire 1 D ADDR1MUX $end
+$var wire 2 a ADDR2MUX [1:0] $end
+$var wire 16 b IR [15:0] $end
+$var wire 1 4 LD_PC $end
+$var wire 1 2 MARMUX $end
+$var wire 2 c PCMUX [1:0] $end
+$var wire 16 d PCout [15:0] $end
+$var wire 16 e bus [15:0] $end
+$var wire 1 " clk $end
+$var wire 1 # rstn $end
+$var wire 16 f SR1OUT [15:0] $end
+$var wire 16 g PC [15:0] $end
+$var wire 16 h ADDER_OUT [15:0] $end
+$var reg 16 i ADDER_ADDR1 [15:0] $end
+$var reg 16 j ADDER_ADDR2 [15:0] $end
+$var reg 16 k MARMUXout [15:0] $end
+$var reg 16 l PC_IN [15:0] $end
+$scope module PC_REG $end
+$var wire 1 " clk $end
+$var wire 1 4 load $end
+$var wire 1 # rstn $end
+$var wire 16 m wdata [15:0] $end
+$var reg 16 n out [15:0] $end
+$upscope $end
+$upscope $end
+$scope module regfile1 $end
+$var wire 3 o DR [2:0] $end
+$var wire 16 p DRIN [15:0] $end
+$var wire 1 3 LD $end
+$var wire 3 q SR1 [2:0] $end
+$var wire 3 r SR2 [2:0] $end
+$var wire 1 " clk $end
+$var wire 1 # rstn $end
+$var reg 16 s SR1OUT [15:0] $end
+$var reg 16 t SR2OUT [15:0] $end
+$var reg 8 u loads [7:0] $end
+$scope module R0 $end
+$var wire 1 " clk $end
+$var wire 1 v load $end
+$var wire 1 # rstn $end
+$var wire 16 w wdata [15:0] $end
+$var reg 16 x out [15:0] $end
+$upscope $end
+$scope module R1 $end
+$var wire 1 " clk $end
+$var wire 1 y load $end
+$var wire 1 # rstn $end
+$var wire 16 z wdata [15:0] $end
+$var reg 16 { out [15:0] $end
+$upscope $end
+$scope module R2 $end
+$var wire 1 " clk $end
+$var wire 1 | load $end
+$var wire 1 # rstn $end
+$var wire 16 } wdata [15:0] $end
+$var reg 16 ~ out [15:0] $end
+$upscope $end
+$scope module R3 $end
+$var wire 1 " clk $end
+$var wire 1 !" load $end
+$var wire 1 # rstn $end
+$var wire 16 "" wdata [15:0] $end
+$var reg 16 #" out [15:0] $end
+$upscope $end
+$scope module R4 $end
+$var wire 1 " clk $end
+$var wire 1 $" load $end
+$var wire 1 # rstn $end
+$var wire 16 %" wdata [15:0] $end
+$var reg 16 &" out [15:0] $end
+$upscope $end
+$scope module R5 $end
+$var wire 1 " clk $end
+$var wire 1 '" load $end
+$var wire 1 # rstn $end
+$var wire 16 (" wdata [15:0] $end
+$var reg 16 )" out [15:0] $end
+$upscope $end
+$scope module R6 $end
+$var wire 1 " clk $end
+$var wire 1 *" load $end
+$var wire 1 # rstn $end
+$var wire 16 +" wdata [15:0] $end
+$var reg 16 ," out [15:0] $end
+$upscope $end
+$scope module R7 $end
+$var wire 1 " clk $end
+$var wire 1 -" load $end
+$var wire 1 # rstn $end
+$var wire 16 ." wdata [15:0] $end
+$var reg 16 /" out [15:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx /"
+bx ."
+0-"
+bx ,"
+bx +"
+0*"
+bx )"
+bx ("
+0'"
+bx &"
+bx %"
+0$"
+bx #"
+bx ""
+0!"
+bx ~
+bx }
+0|
+bx {
+bx z
+0y
+bx x
+bx w
+0v
+b0 u
+bx t
+bx s
+bx r
+bx q
+bx p
+bx o
+bx n
+bx m
+bx l
+bx k
+bx j
+bx i
+bx h
+bx g
+bx f
+bx e
+bx d
+bx c
+bx b
+bx a
+bx `
+bx _
+bx ^
+bx ]
+b11011 \
+b0 [
+b1 Z
+bx Y
+b0 X
+b0 W
+bx V
+bx U
+bx T
+b0 S
+bx R
+bx Q
+bx P
+xO
+xN
+bx M
+bx L
+bx K
+xJ
+xI
+bx H
+bx G
+bx F
+bx E
+xD
+bx C
+bx B
+b0 A
+bx @
+x?
+b0 >
+1=
+0<
+0;
+0:
+09
+18
+07
+06
+05
+04
+13
+x2
+bx 1
+bx 0
+bx /
+0.
+bx -
+bx ,
+1+
+x*
+b1 )
+bx (
+bx '
+bx &
+bx %
+bx $
+0#
+0"
+bx !
+$end
+#5
+0J
+0I
+b0 B
+b0 R
+0O
+b10 M
+1N
+b1 l
+b1 m
+b0 0
+b0 ^
+b0 %
+b0 p
+b0 w
+b0 z
+b0 }
+b0 ""
+b0 %"
+b0 ("
+b0 +"
+b0 ."
+b0 !
+b0 H
+b0 L
+b0 ]
+b0 e
+b0 &
+b0 t
+b0 $
+b0 Q
+b0 (
+b0 f
+b0 s
+b0 '
+b0 r
+b0 -
+b0 Y
+b0 c
+14
+1:
+16
+b11100 \
+bx A
+bx S
+bx W
+bx )
+bx Z
+bx >
+bx X
+0=
+08
+03
+b0 G
+b0 q
+b0 E
+b0 o
+b0 x
+b0 {
+b0 ~
+b0 #"
+b0 &"
+b0 )"
+b0 ,"
+b0 /"
+b0 ,
+b0 d
+b0 g
+b0 n
+b11011 [
+0?
+b0 P
+b0 F
+b0 K
+b0 U
+b0 b
+1"
+#10
+b0 /
+b0 _
+0"
+1#
+#15
+0*
+1.
+15
+b11101 \
+bx -
+bx Y
+bx c
+0:
+04
+06
+b10 l
+b10 m
+b1 %
+b1 p
+b1 w
+b1 z
+b1 }
+b1 ""
+b1 %"
+b1 ("
+b1 +"
+b1 ."
+b1 !
+b1 H
+b1 L
+b1 ]
+b1 e
+b11100 [
+b1 ,
+b1 d
+b1 g
+b1 n
+1"
+#20
+0"
+#25
+b0 %
+b0 p
+b0 w
+b0 z
+b0 }
+b0 ""
+b0 %"
+b0 ("
+b0 +"
+b0 ."
+b0 !
+b0 H
+b0 L
+b0 ]
+b0 e
+1;
+17
+b11110 \
+x*
+0.
+05
+b11101 [
+1"
+#30
+0"
+#35
+19
+b11001 \
+0;
+07
+b11110 [
+1"
+#40
+0"
+#45
+b11011 \
+09
+b11001 [
+1"
+#50
+0"
+#55
+b1 %
+b1 p
+b1 w
+b1 z
+b1 }
+b1 ""
+b1 %"
+b1 ("
+b1 +"
+b1 ."
+b1 !
+b1 H
+b1 L
+b1 ]
+b1 e
+b0 -
+b0 Y
+b0 c
+14
+1:
+16
+b11100 \
+b11011 [
+1"
+#60
+0"
+#65
+0*
+1.
+15
+b11101 \
+bx -
+bx Y
+bx c
+0:
+04
+06
+b10 ,
+b10 d
+b10 g
+b10 n
+b11100 [
+1"
+#70
+0"
+#75
+b0 %
+b0 p
+b0 w
+b0 z
+b0 }
+b0 ""
+b0 %"
+b0 ("
+b0 +"
+b0 ."
+b0 !
+b0 H
+b0 L
+b0 ]
+b0 e
+1;
+17
+b11110 \
+x*
+0.
+05
+b11101 [
+1"
+#80
+0"
+#85
+19
+b11001 \
+0;
+07
+b11110 [
+1"
+#90
+0"
+#95
+b11011 \
+09
+b11001 [
+1"
+#100
+0"
+#105
+b11 l
+b11 m
+b10 %
+b10 p
+b10 w
+b10 z
+b10 }
+b10 ""
+b10 %"
+b10 ("
+b10 +"
+b10 ."
+b10 !
+b10 H
+b10 L
+b10 ]
+b10 e
+b0 -
+b0 Y
+b0 c
+14
+1:
+16
+b11100 \
+b11011 [
+1"
+#110
+0"

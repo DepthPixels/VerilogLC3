@@ -8,6 +8,12 @@ module tb ();
     always #5 clk = ~clk;
 
     initial begin
+      $dumpfile("dump.vcd");
+      $dumpvars(0, tb);
+    end
+
+
+    initial begin
         clk = 0;
         rstn = 0;
       
