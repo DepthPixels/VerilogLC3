@@ -11,6 +11,7 @@ module datapath(
 
   reg R;
   reg BEN;
+  reg [2:0] CC;
   reg [15:0] IR;
 
   reg LD_BEN;
@@ -52,7 +53,7 @@ module datapath(
   pc_mar_muxes pc_mar_muxes1 (clk, rstn, MARMUX, ADDR2MUX, ADDR1MUX, PCMUX, LD_PC, IR, SR1OUT, bus, MARMUXout, PCout);
   control_unit control_unit1 (clk, rstn, R, BEN, IR, LD_BEN, LD_MAR, LD_MDR, LD_IR, LD_PC, LD_REG, LD_CC, GateMARMUX, GateMDR,
   GateALU, GatePC, MARMUX, PCMUX, ADDR1MUX, ADDR2MUX, DRMUX, SR1MUX, ALUK, MIO_EN, R_W);
-  BEN_CC BEN_CC1 (clk, rstn, bus, IR, LD_BEN, LD_CC, BEN);
+  BEN_CC BEN_CC1 (clk, rstn, bus, IR, LD_BEN, LD_CC, BEN, CC);
   datapath_memory datapath_memory1 (clk, rstn, bus, LD_MAR, LD_MDR, MIO_EN, R_W, R, MARout, MDRout);
 
   always @(*) begin
@@ -364,6 +365,7 @@ module control_unit (
         MARMUX = 1'b1;
         ADDR1MUX = 1'b0;
         ADDR2MUX = 2'b11;
+        PCMUX = 2'b01;
       end
       JSRR: begin
         state_next = FETCH;
@@ -373,6 +375,7 @@ module control_unit (
         ADDR1MUX = 1'b1;
         ADDR2MUX = 2'b00;
         SR1MUX = 2'b01;
+        PCMUX = 2'b01;
       end
       JMP: begin
         state_next = FETCH;
@@ -382,6 +385,7 @@ module control_unit (
         ADDR1MUX = 1'b1;
         ADDR2MUX = 2'b00;
         SR1MUX = 2'b01;
+        PCMUX = 2'b01;
       end
       BR_CHECK: begin
         state_next = microsequencer_state'((BEN) ? BR : FETCH);
@@ -393,6 +397,7 @@ module control_unit (
         MARMUX = 1'b1;
         ADDR1MUX = 1'b0;
         ADDR2MUX = 2'b10;
+        PCMUX = 2'b01;
       end
     endcase
   end
@@ -423,7 +428,9 @@ module datapath_memory (
 
   initial begin
       for (int i = 0; i < 65536; i++) MEM[i] = 16'b0;
-      $readmemb("lc3mem.bin", MEM, 0, 25);
+      $readmemb("lc3mem.bin", MEM, 0, 22);
+      $readmemb("array_10.bin", MEM, 256, 267);
+      $readmemb("array_x.bin", MEM, 512, 533);
   end
 
   always @(*) begin
@@ -454,19 +461,19 @@ module BEN_CC (
   input reg LD_BEN,
   input reg LD_CC,
 
-  output reg BEN
+  output reg BEN,
+  output reg [2:0] CC
 );
 
 wire CC_N;
 wire CC_Z;
 wire CC_P;
 wire [2:0] CC_calc;
-reg [2:0] CC;
 wire BEN_calc;
 
 // CC Calculations
 assign CC_N = bus[15];
-assign CC_Z = ~| bus[15];
+assign CC_Z = ~(|bus);
 assign CC_P = ~(CC_N | CC_Z);
 assign CC_calc = {CC_N, CC_Z, CC_P};
 
